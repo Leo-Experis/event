@@ -1,0 +1,32 @@
+.text-field-div {
+  display: flex;
+  align-self: flex-start;
+  width: 100%;
+  gap: 1rem;
+}
+
+.text-field-label {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.text-field-label label {
+  font-size: 1.5em;
+  padding-left:0.2em;
+}
+
+.input-field {
+  width: 95%;
+  font-size: 1rem;
+  padding: 0.675em 0em 0.675em 1em;
+  background-color: #fff;
+  border: 1px solid #caced1;
+  border-radius: 0.25rem;
+  color: #000;
+  cursor: pointer;
+}
+
+.input-field:active {
+  border-color: #ff0d0d;
+}
