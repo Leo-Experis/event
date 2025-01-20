@@ -1,0 +1,8 @@
+.register-input {
+    width: 100%;
+    height: 50%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}

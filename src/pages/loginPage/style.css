@@ -77,6 +77,10 @@ body {
   margin-left: 0.4rem;
 }
 
+.create-account-button:hover {
+  cursor: pointer;
+}
+
 .terms-div {
   width: 100%;
   min-height: 100px;
@@ -175,10 +179,12 @@ body {
   .login-input {
     width: 90%;
   }
+
+  .register-input {
+    width: 90%;
+  }
   .color-gradient-2 {
-    z-index: 0;
-    top: 0;
-    left: 0;
+    display: none;
   }
   .color-gradient-3 {
     z-index: 4;
@@ -199,8 +205,6 @@ body {
     align-items: center;
   }
   .color-gradient-2 {
-    z-index: 0;
-    top: 0;
-    left: 0;
+    display: none;
   }
 }
