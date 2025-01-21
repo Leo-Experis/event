@@ -1,0 +1,51 @@
+.navigation-body {
+    position: absolute;
+    bottom: 1rem;
+    left: calc(50% - 250px);
+    width: 500px;
+    height: 65px;
+    background-color: white;
+    border-radius: 100px;
+    display: flex;
+    box-shadow: 4px 4px 10px 1px black;
+    justify-content: space-around;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 48px;
+    height: 50px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+
+.active {
+    width: 8px;
+    height: 8px;
+    background-color: black;
+    border-radius: 100%;
+}
+
+.new-event-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 425px ) and (min-width: 321px) {
+    .navigation-body {
+        width: 350px;
+        left: calc(50% - 175px);
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .navigation-body {
+        width: 300px;
+        left: calc(50% - 150px);
+    }
+}

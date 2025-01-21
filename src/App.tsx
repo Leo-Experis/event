@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/loginPage";
 import RegsiterPage from "./pages/registerPage";
 import MainPage from "./pages/authed/mainPage";
+import NavigationBar from "./components/navigationBar";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegsiterPage />} />
       </Routes>
+      <NavigationBar />
     </>
   );
 }
