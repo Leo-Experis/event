@@ -2,29 +2,34 @@ import { Button } from "@mui/material";
 
 const MyButton = ({
   title,
-  color,
+  backgroundColor,
   onClick,
   className,
+  color,
+  children,
 }: {
-  title: string;
-  color?: string;
+  title?: string;
+  backgroundColor?: string;
   onClick?: () => void;
   className?: string;
+  color?: string;
+  children?: React.ReactNode;
 }) => {
   return (
     <div>
       <Button
         variant="contained"
         sx={{
-          backgroundColor: color ? color : " #3E63F4",
+          backgroundColor: backgroundColor ? backgroundColor : " #3E63F4",
           "&:hover": {
             opacity: 0.8,
           },
+          color: color ? color : "#fffffff",
         }}
         onClick={onClick}
         className={className}
       >
-        {title}
+        {children ? children : title}
       </Button>
     </div>
   );

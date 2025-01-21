@@ -9,11 +9,12 @@ export default function MainPage() {
             </div>
             <div className="main-events">
                 <MyEventCard title="Spelning" owner="Trädgårn" date="Saturday, 12.06.2025, 11:00 AM" />
-                <div className="event-card-space"></div>
                 <MyEventCard title="Spelning" owner="Trädgårn" date="Saturday, 12.06.2025, 11:00 AM" />
-                <div className="event-card-space"></div>
                 <MyEventCard title="Spelning" owner="Trädgårn" date="Saturday, 12.06.2025, 11:00 AM" />
-                <div className="event-card-space"></div>
+                <MyEventCard title="Spelning" owner="Trädgårn" date="Saturday, 12.06.2025, 11:00 AM" />
+                <MyEventCard title="Spelning" owner="Trädgårn" date="Saturday, 12.06.2025, 11:00 AM" />
+                <MyEventCard title="Spelning" owner="Trädgårn" date="Saturday, 12.06.2025, 11:00 AM" />
+                <MyEventCard title="Spelning" owner="Trädgårn" date="Saturday, 12.06.2025, 11:00 AM" />
                 <MyEventCard title="Spelning" owner="Trädgårn" date="Saturday, 12.06.2025, 11:00 AM" />
             </div>
 

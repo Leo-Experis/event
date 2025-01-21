@@ -109,7 +109,7 @@ body {
   height: 50vh;
   border-radius: 50%;
   filter: blur(60px);
-  bottom: 40px;
+  bottom: 00px;
   left: -150px;
   z-index: 2;
 }
