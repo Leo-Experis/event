@@ -15,11 +15,15 @@
   justify-content: flex-end;
 }
 
-.image-parent-div {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  align-self: center;
+.date-title {
+  font-size: 12px;
+  font-weight: 400;
+  color: #8f919b;
+}
+
+.event-title {
+  font-size: 1.2em;
+  font-weight: 600;
 }
 
 .card-info-body {
@@ -69,7 +73,7 @@
   }
 }
 
-@media only screen and (max-width: 425px ) and (min-width: 321px) {
+@media only screen and (max-width: 425px) and (min-width: 321px) {
   .event-card-body {
     width: 90%;
     min-width: 300px;
@@ -83,5 +87,3 @@
     width: 200px;
   }
 }
-
-

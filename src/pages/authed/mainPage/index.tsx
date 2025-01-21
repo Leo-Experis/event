@@ -1,23 +1,65 @@
 import MyEventCard from "../../../components/eventCard";
-import "./style.css"
+import "./style.css";
 
 export default function MainPage() {
-    return (
-        <div className="main-body">
-            <div className="main-title">
-                <h1>Nearby Events</h1>
-            </div>
-            <div className="main-events">
-                <MyEventCard title="Spelning" owner="Trädgårn" date="Saturday, 12.06.2025, 11:00 AM" />
-                <MyEventCard title="Spelning" owner="Trädgårn" date="Saturday, 12.06.2025, 11:00 AM" />
-                <MyEventCard title="Spelning" owner="Trädgårn" date="Saturday, 12.06.2025, 11:00 AM" />
-                <MyEventCard title="Spelning" owner="Trädgårn" date="Saturday, 12.06.2025, 11:00 AM" />
-                <MyEventCard title="Spelning" owner="Trädgårn" date="Saturday, 12.06.2025, 11:00 AM" />
-                <MyEventCard title="Spelning" owner="Trädgårn" date="Saturday, 12.06.2025, 11:00 AM" />
-                <MyEventCard title="Spelning" owner="Trädgårn" date="Saturday, 12.06.2025, 11:00 AM" />
-                <MyEventCard title="Spelning" owner="Trädgårn" date="Saturday, 12.06.2025, 11:00 AM" />
-            </div>
+  return (
+    <div className="main-body">
+      <div className="main-title">
+        <h1>Nearby Events</h1>
+      </div>
+      <div></div>
+      <div className="main-events">
+        <MyEventCard
+          title="Spelning"
+          owner="Trädgårn"
+          date="Saturday, 12.06.2025, 11:00 AM"
+          interested={false}
+        />
+        <MyEventCard
+          title="Spelning"
+          owner="Trädgårn"
+          date="Saturday, 12.06.2025, 11:00 AM"
+          interested={false}
+        />
+        <MyEventCard
+          title="Spelning"
+          owner="Trädgårn"
+          date="Saturday, 12.06.2025, 11:00 AM"
+          interested={false}
+        />
+        <MyEventCard
+          title="Spelning"
+          owner="Trädgårn"
+          date="Saturday, 12.06.2025, 11:00 AM"
+          interested={false}
+        />
+        <MyEventCard
+          title="Spelning"
+          owner="Trädgårn"
+          date="Saturday, 12.06.2025, 11:00 AM"
+          interested={false}
+        />
+        <MyEventCard
+          title="Spelning"
+          owner="Trädgårn"
+          date="Saturday, 12.06.2025, 11:00 AM"
+          interested={false}
+        />
+        <MyEventCard
+          title="Spelning"
+          owner="Trädgårn"
+          date="Saturday, 12.06.2025, 11:00 AM"
+          interested={false}
+        />
+        <MyEventCard
+          title="Spelning"
+          owner="Trädgårn"
+          date="Saturday, 12.06.2025, 11:00 AM"
+          interested={false}
+        />
 
-        </div>
-    )
+        <div className="main-events-footer"></div>
+      </div>
+    </div>
+  );
 }
