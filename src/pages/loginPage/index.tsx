@@ -3,15 +3,29 @@ import MyInputField from "../../components/myInputField";
 import "./style.css";
 import MyButton from "../../components/myButton";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import { ErrorResponse } from "../../proptypes/ResponseProp";
 
 export default function LoginPage() {
   const [user, setUser] = useState({ username: "", password: "" });
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { onLogin } = useAuth();
+  const [error, setError] = useState<ErrorResponse>();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     const { name, value } = target;
     setUser({ ...user, [name]: value });
+  };
+
+  const handleSubmit = async () => {
+    console.log(user.username);
+    const res = await onLogin(user.username, user.password);
+    if (res.status_code == 200) {
+      navigate("/");
+    } else {
+      setError({ error: true, error_code: res.status_code, data: res.data });
+    }
   };
 
   return (
@@ -24,26 +38,47 @@ export default function LoginPage() {
             </div>
             <div className="login-input">
               <MyInputField
-                label="Email/Username"
                 onChange={handleChange}
+                placeholder="Email/Username"
                 inputName="username"
                 value={user.username}
+                icon="/icons/email-icon.svg"
               />
+              <div className="space"></div>
               <MyInputField
-                label="Password"
                 onChange={handleChange}
+                placeholder="Password"
                 inputName="password"
                 value={user.password}
                 type="password"
+                icon="/icons/password-icon.svg"
+                changeVisibility={true}
               />
             </div>
+            {error?.error ? (
+              <div className="error-message">{error.data}</div>
+            ) : (
+              <div className="error-message-holder"></div>
+            )}
             <div className="login-register-div">
               <div className="login-button-div">
-                <MyButton title="Login" className="login-button" />
+                <MyButton
+                  onClick={handleSubmit}
+                  title="Login"
+                  className="login-button"
+                />
               </div>
               <div className="register-text">
                 <p>Don't have an account?</p>
-                <p className="create-account-button" onClick={() => {navigate("/register")}}> Create Account</p>
+                <p
+                  className="create-account-button"
+                  onClick={() => {
+                    navigate("/register");
+                  }}
+                >
+                  {" "}
+                  Create Account
+                </p>
               </div>
             </div>
           </div>

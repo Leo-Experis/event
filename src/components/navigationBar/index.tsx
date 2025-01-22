@@ -1,5 +1,4 @@
 import "./style.css";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useLocation, useNavigate } from "react-router-dom";
 const NavigationBar = () => {
   const navigate = useNavigate();

@@ -36,10 +36,6 @@
   width: 100%;
 }
 
-.event-card-space {
-  padding-top: 2rem;
-}
-
 @media (max-width: 1024px) {
   .main-body {
     width: 100%;
