@@ -1,0 +1,42 @@
+.not-found-body {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "inter", sans-serif;
+  overflow: hidden;
+}
+
+.not-found-title {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.not-found-title h3 {
+  display: flex;
+}
+
+.not-dashed {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  text-decoration: line-through;
+}
+
+.go-back-home {
+  text-decoration: underline;
+}
+
+.go-back-home:hover {
+  cursor: pointer;
+  color: blue;
+}
+
+
+.not-found-toaster {
+    padding-top: 1rem;
+}
+
+.not-found-toaster p{
+    font-size: 1.1rem;
+}

@@ -1,0 +1,148 @@
+.setup-account-body {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.setup-account-box {
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 40%;
+  height: 70%;
+  max-width: 565px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1rem;
+  border-radius: 20px;
+  z-index: 3;
+}
+
+.setup-account-title {
+  padding-bottom: 1rem;
+}
+
+.setup-account-input {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.date-picker-div {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.5rem;
+  width: 80%;
+  align-self: center;
+  height: 42px;
+  margin-bottom: 1rem;
+}
+
+.date-picker {
+  width: 80%;
+  font-size: 1rem;
+  background-color: #fff;
+  padding: 0.675em 0em 0.675em 2.3em !important;
+  border: none;
+  outline: none;
+  color: #000;
+  cursor: pointer;
+}
+
+.date-picker-icon {
+  width: 24px !important;
+  height: 24px !important;
+  padding: 0rem !important;
+  padding-top: 0.7rem !important;
+}
+
+.continue-setup-div {
+  display: flex;
+  width: 85%;
+  align-self: center;
+  align-items: flex-start;
+  height: 50%;
+}
+
+@media (max-width: 1024px) {
+  .setup-account-box {
+    width: 60%;
+    height: 80vh;
+    align-self: flex-start;
+    margin-top: 2rem;
+  }
+
+  .setup-account-input {
+    width: 80%;
+  }
+  .color-gradient-2 {
+    z-index: 0;
+  }
+
+  .color-gradient-1 {
+    z-index: 4;
+  }
+
+  .color-gradient-3 {
+    z-index: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .setup-account-box {
+    width: 100%;
+    height: 100vh;
+    margin-top: 0rem;
+    border-radius: 0;
+  }
+
+  .setup-account-input {
+    width: 90%;
+  }
+
+  .color-gradient-3 {
+    z-index: 4;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+@media (max-width: 425px) {
+  .setup-account-box {
+    width: 100%;
+    height: 100vh;
+    margin-top: 0rem;
+    border-radius: 0;
+  }
+
+  .setup-account-input {
+    width: 90%;
+  }
+
+  .color-gradient-3 {
+    z-index: 4;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+@media (max-width: 320px) {
+  .register-text {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .color-gradient-2 {
+    display: none;
+  }
+  .setup-account-title {
+    font-size: 0.9em;
+  }
+}

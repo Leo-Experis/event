@@ -1,12 +1,14 @@
 import MyEventCard from "../../../components/eventCard";
+import useAuth from "../../../hooks/useAuth";
 import "./style.css";
 export default function MyEventPage() {
+  const {username} = useAuth();
   return (
     <div className="main-body">
       <div className="welcome-back-parent">
         <div className="welcome-back-message">
           <h2>Welcome Back!</h2>
-          <h3>Leo Wahlandt</h3>
+          <h3>{username}</h3>
         </div>
 
         <div className="welcome-back-profile">LW</div>

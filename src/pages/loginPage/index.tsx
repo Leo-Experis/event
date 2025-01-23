@@ -19,10 +19,10 @@ export default function LoginPage() {
   };
 
   const handleSubmit = async () => {
-    console.log(user.username);
     const res = await onLogin(user.username, user.password);
+    console.log(res);
     if (res.status_code == 200) {
-      navigate("/");
+      navigate("/setupAccount");
     } else {
       setError({ error: true, error_code: res.status_code, data: res.data });
     }

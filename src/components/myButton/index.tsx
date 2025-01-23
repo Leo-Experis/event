@@ -16,22 +16,20 @@ const MyButton = ({
   children?: React.ReactNode;
 }) => {
   return (
-    <div>
-      <Button
-        variant="contained"
-        sx={{
-          backgroundColor: backgroundColor ? backgroundColor : " #3E63F4",
-          "&:hover": {
-            opacity: 0.8,
-          },
-          color: color ? color : "#fffffff",
-        }}
-        onClick={onClick}
-        className={className}
-      >
-        {children ? children : title}
-      </Button>
-    </div>
+    <Button
+      variant="contained"
+      sx={{
+        backgroundColor: backgroundColor ? backgroundColor : " #3E63F4",
+        "&:hover": {
+          opacity: 0.8,
+        },
+        color: color ? color : "#fffffff",
+      }}
+      onClick={onClick}
+      className={className}
+    >
+      {children ? children : title}
+    </Button>
   );
 };
 

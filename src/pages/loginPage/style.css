@@ -23,7 +23,8 @@ body {
 .login-box {
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 30%;
+  width: 40%;
+  max-width: 565px;
   height: 60%;
   display: flex;
   flex-direction: column;
@@ -48,16 +49,16 @@ body {
 
 .login-button-div {
   width: 85%;
-  background-color: red;
   justify-content: center;
 }
 
 .login-button {
   width: 100%;
   height: 48px;
-  border-radius: 20px;
-  font-weight: 500;
-  background-color: red;
+  border-radius: 50px !important;
+  font-weight: 500 !important;
+  font-size: 16px !important;
+  text-transform: none !important;
 }
 
 .login-register-div {
@@ -215,9 +216,6 @@ body {
 
   .register-input {
     width: 90%;
-  }
-  .color-gradient-2 {
-    display: none;
   }
   .color-gradient-3 {
     z-index: 4;

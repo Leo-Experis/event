@@ -25,6 +25,7 @@
   padding: 0.5rem;
   width: 100%;
   align-self: center;
+  height: 42px;
 }
 
 .input-field {
@@ -39,10 +40,10 @@
   cursor: pointer;
 }
 
-.input-field:active {
-  border-color: #ff0d0d;
+.input-icon {
+  width: 24px;
+  height: 24px;
 }
-
 .trailing-icon {
   padding-right: 1rem;
   padding-left: 0.5rem;

@@ -4,4 +4,13 @@ interface UserProp {
   password: string;
 }
 
-export type { UserProp };
+interface ProfileProp {
+  firstName: string;
+  lastName: string;
+  dob: Date;
+  phonenumber: string;
+  username: string;
+  email: string;
+}
+
+export type { UserProp, ProfileProp };

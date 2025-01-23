@@ -117,8 +117,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     password: string
   ): Promise<MyResponse> => {
     const res = await login(username, password);
-    console.log(res);
-    if (res.status == 201) {
+    if (res.status == 200) {
       if (!res.data.token || !res.data.roles) {
         return {
           status_code: 401,

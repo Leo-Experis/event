@@ -5,9 +5,11 @@ import { useNavigate } from "react-router-dom";
 import "./style.css";
 import useAuth from "../../hooks/useAuth";
 import { ErrorResponse } from "../../proptypes/ResponseProp";
+import useProfile from "../../hooks/useProfile";
 
 export default function RegsiterPage() {
   const { onRegister } = useAuth();
+  const { setUsernameEmail } = useProfile();
   const navigate = useNavigate();
   const [newUser, setNewUser] = useState({
     username: "",
@@ -27,7 +29,12 @@ export default function RegsiterPage() {
     const res = await onRegister(newUser);
     setError({ error: false, error_code: 0, data: "" });
     if (res.status_code == 201) {
-      navigate("/login");
+      setUsernameEmail({
+        username: newUser.username,
+        email: newUser.email,
+        password: "",
+      });
+      navigate("/setupAccount");
     } else {
       setError({ error: true, error_code: res.status_code, data: res.data });
     }
