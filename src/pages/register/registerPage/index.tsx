@@ -1,11 +1,11 @@
 import { useState } from "react";
-import MyInputField from "../../components/myInputField";
-import MyButton from "../../components/myButton";
+import MyInputField from "../../../components/myInputField";
+import MyButton from "../../../components/myButton";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
-import useAuth from "../../hooks/useAuth";
-import { ErrorResponse } from "../../proptypes/ResponseProp";
-import useProfile from "../../hooks/useProfile";
+import useAuth from "../../../hooks/useAuth";
+import { ErrorResponse } from "../../../proptypes/ResponseProp";
+import useProfile from "../../../hooks/useProfile";
 
 export default function RegsiterPage() {
   const { onRegister } = useAuth();

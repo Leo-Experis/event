@@ -1,15 +1,17 @@
 import { useState } from "react";
 import DatePicker from "react-datepicker";
-import useProfile from "../../hooks/useProfile";
-import MyInputField from "../../components/myInputField";
+import useProfile from "../../../hooks/useProfile";
+import MyInputField from "../../../components/myInputField";
 import "./style.css";
 import "react-datepicker/dist/react-datepicker.css";
-import { ProfileProp } from "../../proptypes/UserProp";
-import MyButton from "../../components/myButton";
+import { ProfileProp } from "../../../proptypes/UserProp";
+import MyButton from "../../../components/myButton";
+import { useNavigate } from "react-router-dom";
 
 export default function SetupAccount() {
   const [dob, setDOB] = useState<Date | null>(new Date());
   const { username, email } = useProfile();
+  const navigate = useNavigate();
 
   const [profile, setProfile] = useState<ProfileProp>({
     firstName: "",
@@ -87,7 +89,7 @@ export default function SetupAccount() {
           </div>
           <div className="continue-setup-div">
             <MyButton
-              onClick={() => {}}
+              onClick={() => navigate("/addProfilePicture")}
               title="Next"
               className="login-button"
             />

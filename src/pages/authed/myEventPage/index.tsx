@@ -1,8 +1,11 @@
 import MyEventCard from "../../../components/eventCard";
+import { MyProfilePicture } from "../../../components/profilePicture";
 import useAuth from "../../../hooks/useAuth";
+import useProfile from "../../../hooks/useProfile";
 import "./style.css";
 export default function MyEventPage() {
-  const {username} = useAuth();
+  const { username } = useAuth();
+  const { getProfilePicture } = useProfile();
   return (
     <div className="main-body">
       <div className="welcome-back-parent">
@@ -11,7 +14,7 @@ export default function MyEventPage() {
           <h3>{username}</h3>
         </div>
 
-        <div className="welcome-back-profile">LW</div>
+        <MyProfilePicture imgString={getProfilePicture()} />
       </div>
       <div className="my-event-title">
         <p>My events</p>

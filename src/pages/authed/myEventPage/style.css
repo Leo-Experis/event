@@ -19,17 +19,6 @@
   font-size: 20px;
 }
 
-.welcome-back-profile {
-  background-color: rgb(219, 104, 104);
-  width: 64px;
-  height: 64px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 100%;
-  margin-right: 1rem;
-}
-
 .my-event-title {
   align-self: center;
   padding-left: 1rem;

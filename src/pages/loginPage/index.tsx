@@ -22,7 +22,7 @@ export default function LoginPage() {
     const res = await onLogin(user.username, user.password);
     console.log(res);
     if (res.status_code == 200) {
-      navigate("/setupAccount");
+      navigate("/");
     } else {
       setError({ error: true, error_code: res.status_code, data: res.data });
     }

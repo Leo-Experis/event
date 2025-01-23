@@ -5,6 +5,8 @@ interface ProfileContextType {
   username: string;
   email: string;
   profile: ProfileProp | {};
+  setProfilePicture: (profilePicture: string) => void;
+  getProfilePicture: () => string;
   setUsernameEmail: (user: UserProp) => void;
   updateProfile: (profile: any) => void;
   getProfile: () => void;
@@ -14,6 +16,8 @@ const ProfileContext = createContext<ProfileContextType>({
   username: "",
   email: "",
   profile: {},
+  setProfilePicture: () => {},
+  getProfilePicture: () => "",
   setUsernameEmail: () => {},
   updateProfile: () => {},
   getProfile: () => {},
@@ -23,6 +27,7 @@ const ProfileProvider = ({ children }: { children: ReactNode }) => {
   const [profile, setProfile] = useState<ProfileProp | {}>({});
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [profilePicture, _setProfilePicture] = useState<string>("");
 
   const setUsernameEmail = (user: UserProp) => {
     setUsername(user.username);
@@ -37,10 +42,20 @@ const ProfileProvider = ({ children }: { children: ReactNode }) => {
     // Fetch profile from the API
   };
 
+  const getProfilePicture = () => {
+    return profilePicture;
+  };
+
+  const setProfilePicture = (profilePicture: string) => {
+    _setProfilePicture(profilePicture);
+  };
+
   const value = {
     username,
     email,
     profile,
+    setProfilePicture,
+    getProfilePicture,
     setUsernameEmail,
     updateProfile,
     getProfile,
