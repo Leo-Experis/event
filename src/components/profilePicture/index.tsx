@@ -10,6 +10,7 @@ import MyButton from "../myButton";
 import "./style.css";
 import useProfile from "../../hooks/useProfile";
 import { useNavigate } from "react-router-dom";
+import OnSave from "../saveImage";
 
 const MyProfilePicture = ({ imgString }: { imgString: string }) => {
   return (
@@ -20,7 +21,7 @@ const MyProfilePicture = ({ imgString }: { imgString: string }) => {
   );
 };
 
-const centerAspectCrop = (
+const CenterAspectCrop = (
   mediaWidth: number,
   mediaHeight: number,
   aspect: number
@@ -65,98 +66,75 @@ const ChangeProfilePicture = () => {
   const onImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
     if (4 / 3 /* aspect variable*/) {
       const { width, height } = e.currentTarget;
-      setCrop(centerAspectCrop(width, height, 4 / 3 /* aspect variable*/));
+      setCrop(CenterAspectCrop(width, height, 4 / 3 /* aspect variable*/));
     }
-  };
-
-  const onSave = () => {
-    if (!completedCrop || !profilePicture) {
-      return;
-    }
-
-    const image = new Image();
-    image.src = profilePicture;
-    image.onload = () => {
-      const canvas = document.createElement("canvas");
-      const scaleX = image.naturalWidth / image.width;
-      const scaleY = image.naturalHeight / image.height;
-      canvas.width = completedCrop.width * scaleX;
-      canvas.height = completedCrop.height * scaleY;
-      const ctx = canvas.getContext("2d");
-
-      if (ctx) {
-        ctx.drawImage(
-          image,
-          completedCrop.x * scaleX,
-          completedCrop.y * scaleY,
-          completedCrop.width * scaleX,
-          completedCrop.height * scaleY,
-          0,
-          0,
-          completedCrop.width * scaleX,
-          completedCrop.height * scaleY
-        );
-        const base64Image = canvas.toDataURL("image/png");
-        // Save base64Image to your database
-        //JUST FOR FUN, THIS IS GOING TO SAVE TO DATABASE
-        setProfilePicture(base64Image);
-
-        canvas.toBlob(
-          (blob) => {
-            if (blob) {
-              console.log(blob);
-            }
-          },
-          "image/png",
-          1
-        );
-        console.log(base64Image);
-        navigate("/");
-      }
-    };
   };
 
   return (
     <div className="change-profile-picture-box">
       {profilePicture ? (
-        <ReactCrop
-          crop={crop}
-          onChange={(_, percentCrop) => setCrop(percentCrop)}
-          onComplete={(c) => setCompletedCrop(c)}
-          aspect={4 / 3} /* aspect variable*/
-          minWidth={300}
-          circularCrop={true}
-        >
-          <img
-            alt="Crop me"
-            src={profilePicture}
-            style={{ transform: `scale(${1}) rotate(${0}deg)` }}
-            onLoad={onImageLoad}
-          />
-        </ReactCrop>
+        <div>
+          <ReactCrop
+            crop={crop}
+            onChange={(_, percentCrop) => setCrop(percentCrop)}
+            onComplete={(c) => setCompletedCrop(c)}
+            aspect={4 / 3} /* aspect variable*/
+            minWidth={300}
+            circularCrop={true}
+          >
+            <img
+              alt="Crop me"
+              src={profilePicture}
+              style={{ transform: `scale(${1}) rotate(${0}deg)` }}
+              className="added-image"
+              onLoad={onImageLoad}
+            />
+          </ReactCrop>
+          <div className="change-profile-picture-button">
+            <MyButton
+              className="login-button"
+              title="Change Profile Picture"
+              onClick={() => document.getElementById("fileInput")?.click()}
+            ></MyButton>
+          </div>
+        </div>
       ) : (
-        <div className="empty-profile-picture-div"></div>
-      )}
-      <div className="change-profile-picture-button">
-        <MyButton
-          className="login-button"
-          title="Select Profile Picture"
+        <div
+          className="empty-profile-picture-div"
           onClick={() => document.getElementById("fileInput")?.click()}
-        ></MyButton>
-        <input
-          id="fileInput"
-          type="file"
-          onChange={onSelectFile}
-          style={{ display: "none" }}
-        />
-      </div>
+        >
+          <div className="empty-profile-picture-text">
+            <img
+              src="/icons/camera-icon.svg"
+              alt="camera-icon"
+              className="add-profile-picture-icon"
+            ></img>
+            <p>Click here to add a profile picture</p>
+          </div>
+        </div>
+      )}
+
+      <input
+        id="fileInput"
+        type="file"
+        onChange={onSelectFile}
+        style={{ display: "none" }}
+      />
 
       {profilePicture ? (
         <div className="save-profile-picture-button">
           <MyButton
             className="login-button"
             title="Next"
-            onClick={onSave}
+            onClick={async () => {
+              if (completedCrop) {
+                const saved = await OnSave({ completedCrop, profilePicture });
+                if (saved.status === 200) {
+                  setProfilePicture(saved.base64Image);
+                  navigate("/");
+                }
+              }
+            }}
           ></MyButton>
         </div>
       ) : null}
@@ -164,4 +142,4 @@ const ChangeProfilePicture = () => {
   );
 };
 
-export { MyProfilePicture, ChangeProfilePicture };
+export { MyProfilePicture, ChangeProfilePicture, CenterAspectCrop };

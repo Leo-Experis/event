@@ -1,5 +1,4 @@
 import { useState } from "react";
-import DatePicker from "react-datepicker";
 import useProfile from "../../../hooks/useProfile";
 import MyInputField from "../../../components/myInputField";
 import "./style.css";
@@ -9,7 +8,6 @@ import MyButton from "../../../components/myButton";
 import { useNavigate } from "react-router-dom";
 
 export default function SetupAccount() {
-  const [dob, setDOB] = useState<Date | null>(new Date());
   const { username, email } = useProfile();
   const navigate = useNavigate();
 
@@ -67,26 +65,7 @@ export default function SetupAccount() {
             value={profile.phonenumber}
             icon="/icons/phone-icon.svg"
           />
-          <div className="date-picker-div">
-            <DatePicker
-              showIcon={true}
-              selected={dob}
-              onChange={(date) => setDOB(date)}
-              placeholderText="Select your Date of Birth"
-              className="date-picker"
-              dateFormat={"YYYY-MM-dd"}
-              showYearDropdown
-              showMonthDropdown
-              dropdownMode="select"
-              icon={
-                <img
-                  src="/icons/uit_calender.svg"
-                  alt="calendar-icon"
-                  className="input-icon date-picker-icon"
-                />
-              }
-            />
-          </div>
+
           <div className="continue-setup-div">
             <MyButton
               onClick={() => navigate("/addProfilePicture")}

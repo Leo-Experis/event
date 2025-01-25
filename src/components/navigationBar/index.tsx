@@ -36,7 +36,10 @@ const NavigationBar = () => {
         ></div>
       </div>
 
-      <div className="new-event-button">
+      <div
+        className="new-event-button"
+        onClick={() => navigate("/createEvent")}
+      >
         <img
           src="/icons/iconoir_plus-circle-solid.svg"
           alt="Home"

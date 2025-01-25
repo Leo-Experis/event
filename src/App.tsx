@@ -9,6 +9,7 @@ import PageNotFound from "./pages/pageNotFound";
 import { ProfileProvider } from "./context/profile";
 import SetupAccount from "./pages/register/setupAccount";
 import ProfilePicturePage from "./pages/register/profilePicturePage";
+import CreateEventPage from "./pages/authed/createEventPage";
 function App() {
   return (
     <>
@@ -32,6 +33,15 @@ function App() {
               element={
                 <ProtectedRoute>
                   <MainPage />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/createEvent"
+              element={
+                <ProtectedRoute>
+                  <CreateEventPage />
                 </ProtectedRoute>
               }
             />

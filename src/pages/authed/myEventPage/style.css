@@ -1,29 +1,30 @@
 .welcome-back-parent {
   height: 100px;
-  padding-left: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
-  width: 75%;
-  margin: auto;
+  width: 100%;
 }
+
 
 .welcome-back-message h2 {
   font-weight: 600;
   font-size: 24px;
+  padding-left: 1rem;
 }
 
 .welcome-back-message h3 {
   font-weight: 400;
   font-size: 20px;
+  color: #8f919b;
+  padding-left: 1rem;
 }
 
 .my-event-title {
   align-self: center;
   padding-left: 1rem;
   padding-bottom: 1rem;
-  width: 75%;
+  width: 100%;
   margin-left: 1rem;
   margin-top: 1rem;
 }
@@ -38,12 +39,12 @@
     width: 75%;
   }
   .welcome-back-parent {
-    width: 75%;
+    width: 100%;
   }
 }
 @media (max-width: 425px) {
   .my-event-title {
-    width: 100%;
+    width: 95%;
   }
   .welcome-back-parent {
     width: 100%;

@@ -95,6 +95,7 @@ body {
   flex-direction: column;
   align-items: center;
   font-size: 1em;
+  padding-top: 1rem;
 }
 
 .text-link {
@@ -160,7 +161,8 @@ body {
   font-size: 1rem;
   font-weight: bold;
   animation: shake 1s;
-  height: 20px;
+  height: 40px;
+  width: 80%;
 }
 
 .error-message-holder {
@@ -218,7 +220,7 @@ body {
     width: 90%;
   }
   .color-gradient-3 {
-    z-index: 4;
+    z-index: 1;
     right: 0;
     bottom: 0;
   }

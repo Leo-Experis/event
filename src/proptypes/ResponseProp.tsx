@@ -9,4 +9,9 @@ interface ErrorResponse {
   data: string;
 }
 
-export type { MyResponse, ErrorResponse };
+interface OnSaveResponse {
+  status: number;
+  base64Image: string;
+}
+
+export type { MyResponse, ErrorResponse, OnSaveResponse };

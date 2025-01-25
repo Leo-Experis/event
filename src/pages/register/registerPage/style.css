@@ -5,3 +5,8 @@
     flex-direction: column;
     justify-content: space-evenly;
 }
+
+.register-text {
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+}

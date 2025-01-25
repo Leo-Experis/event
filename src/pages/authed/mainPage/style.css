@@ -20,7 +20,7 @@
 }
 .main-events {
   margin: auto;
-  width: 75%;
+  width: 100%;
   height: auto;
   flex-direction: row;
   flex-wrap: wrap;

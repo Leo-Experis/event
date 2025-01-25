@@ -6,6 +6,7 @@ import "./style.css";
 import useAuth from "../../../hooks/useAuth";
 import { ErrorResponse } from "../../../proptypes/ResponseProp";
 import useProfile from "../../../hooks/useProfile";
+import DatePicker from "react-datepicker";
 
 export default function RegsiterPage() {
   const { onRegister } = useAuth();
@@ -16,6 +17,7 @@ export default function RegsiterPage() {
     email: "",
     password: "",
   });
+  const [dob, setDOB] = useState<Date | null>(new Date());
   const [error, setError] = useState<ErrorResponse>();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,6 +74,26 @@ export default function RegsiterPage() {
                 icon="/icons/password-icon.svg"
                 changeVisibility={true}
               />
+              <div className="date-picker-div">
+                <DatePicker
+                  showIcon={true}
+                  onChange={(date) => setDOB(date)}
+                  placeholderText="Select your Date of Birth"
+                  className="date-picker"
+                  dateFormat={"YYYY-MM-dd"}
+                  showYearDropdown
+                  showMonthDropdown
+                  dropdownMode="select"
+                  value={dob ? dob.toISOString().split("T")[0] : ""}
+                  icon={
+                    <img
+                      src="/icons/uit_calender.svg"
+                      alt="calendar-icon"
+                      className="input-icon date-picker-icon"
+                    />
+                  }
+                />
+              </div>
             </div>
             {error?.error ? (
               <div className="error-message">{error.data}</div>
@@ -95,7 +117,6 @@ export default function RegsiterPage() {
                     navigate("/login");
                   }}
                 >
-                  {" "}
                   Login!
                 </p>
               </div>
