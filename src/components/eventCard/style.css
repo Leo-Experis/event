@@ -6,7 +6,7 @@
   height: 30vh;
   border-radius: 20px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  background-image: url("/public/testImage.jpg");
+  background-image: url("/testImage.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   justify-content: flex-end;

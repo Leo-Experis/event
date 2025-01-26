@@ -15,6 +15,8 @@ import NavigationBar from "../components/navigationBar";
 import { UserProp } from "../proptypes/UserProp";
 import { login, register } from "../services/apiCaller/authClient";
 import { MyResponse } from "../proptypes/ResponseProp";
+import { EventProvider } from "./event";
+import { ProfileProvider } from "./profile";
 
 /**
  * @interface AuthContextType
@@ -62,7 +64,7 @@ const AuthContext = createContext<AuthContextType>({
       status_code: 500,
       data: "Initial response data",
     }),
-  onLogout: () => {},
+  onLogout: () => { },
   onRegister: () =>
     Promise.resolve({
       status_code: 500,
@@ -206,8 +208,16 @@ const ProtectedRoute = ({ children }: { children: ReactNode }) => {
 
   return (
     <>
-      {children}
-      <NavigationBar />
+      <ProfileProvider>
+
+
+        <EventProvider>
+
+
+          {children}
+          <NavigationBar />
+        </EventProvider>
+      </ProfileProvider>
     </>
   );
 };

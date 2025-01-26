@@ -7,14 +7,14 @@ import { PixelCrop } from "react-image-crop";
  */
 const OnSave = ({
   completedCrop,
-  profilePicture,
+  savePicture,
 }: {
   completedCrop: PixelCrop;
-  profilePicture: string;
+  savePicture: string;
 }) => {
   return new Promise<{ status: number; base64Image: string }>((resolve) => {
     const image = new Image();
-    image.src = profilePicture;
+    image.src = savePicture;
     image.onload = () => {
       const canvas = document.createElement("canvas");
       const scaleX = image.naturalWidth / image.width;

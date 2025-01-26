@@ -5,13 +5,33 @@ import "./style.css";
 import { useState } from "react";
 import ReactCrop, { Crop, PixelCrop } from "react-image-crop";
 import { CenterAspectCrop } from "../../../components/profilePicture";
+import OnSave from "../../../components/saveImage";
+import { useNavigate } from "react-router-dom";
+import EventProp from "../../../proptypes/EventProp";
 
 export default function CreateEventPage() {
   const [eventDate, _setEventDate] = useState<Date | null>();
-  const [eventImage, _setEventImage] = useState<string | null>();
+  const [eventImage, _setEventImage] = useState<string | null>(null);
   const [crop, setCrop] = useState<Crop>();
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
+  const [newEvent, _setNewEvent] = useState<EventProp>({
+    title: "",
+    date: "",
+    description: "",
+    location: "",
+    image: "",
+    category: ""
+  })
   const aspect = 16 / 9;
+  const navigate = useNavigate()
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    const { name, value } = target;
+
+    _setNewEvent({ ...newEvent, [name]: value })
+  }
+
   const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setCrop(undefined); // Makes crop preview update between images.
@@ -80,15 +100,16 @@ export default function CreateEventPage() {
           )}
           <MyInputField
             placeholder="Event Description"
-            inputName="eventDescription"
+            inputName="description"
             value=""
-            onChange={() => {}}
+            onChange={handleChange}
+
           />
           <div className="date-picker-div">
             <DatePicker
               showIcon={true}
               onChange={(date) => _setEventDate(date)}
-              placeholderText="Select your Date of Birth"
+              placeholderText="Select Date of event"
               className="date-picker"
               dateFormat={"YYYY-MM-dd"}
               showYearDropdown
@@ -108,35 +129,42 @@ export default function CreateEventPage() {
             placeholder="Event Time"
             inputName="eventTime"
             value=""
-            onChange={() => {}}
+            onChange={handleChange}
           />
           <MyInputField
             placeholder="Event Location"
-            inputName="eventLocation"
+            inputName="location"
             value=""
-            onChange={() => {}}
-          />
-          <MyInputField
-            placeholder="Event Image"
-            inputName="eventImage"
-            value=""
-            onChange={() => {}}
+            onChange={handleChange}
           />
           <MyInputField
             placeholder="Event Category"
-            inputName="eventCategory"
+            inputName="category"
             value=""
-            onChange={() => {}}
-          />
-          <MyInputField
-            placeholder="Event Price"
-            inputName="eventPrice"
-            value=""
-            onChange={() => {}}
+            onChange={handleChange}
           />
         </div>
         <div className="create-event-page-button">
-          <MyButton title="Create Event" />
+          {eventImage ? (
+            <MyButton
+              className="login-button"
+              title="Next"
+              onClick={async () => {
+                if (completedCrop) {
+                  const saved = await OnSave({ completedCrop, savePicture: eventImage });
+                  if (saved.status === 200) {
+
+                    navigate("/");
+                  }
+                }
+              }}
+            ></MyButton>
+          ) : (
+            <MyButton
+              className="login-button"
+              title="Create Event" />
+          )}
+
         </div>
       </div>
       <input
