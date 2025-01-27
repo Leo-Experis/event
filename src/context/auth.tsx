@@ -12,9 +12,9 @@ import { createContext } from "react";
 import { ReactNode } from "react";
 import useAuth from "../hooks/useAuth";
 import NavigationBar from "../components/navigationBar";
-import { UserProp } from "../proptypes/UserProp";
+import { UserProp, UserResponseProp } from "../proptypes/UserProp";
 import { login, register } from "../services/apiCaller/authClient";
-import { MyResponse } from "../proptypes/ResponseProp";
+import { MyErrorResponse, MyResponse } from "../proptypes/ResponseProp";
 import { EventProvider } from "./event";
 
 /**
@@ -30,7 +30,7 @@ interface AuthContextType {
   role: string | null;
   username: string;
   userId: number;
-  onLogin: (username: string, password: string) => Promise<MyResponse>;
+  onLogin: (username: string, password: string) => Promise<UserResponseProp | MyErrorResponse>;
   onLogout: () => void;
   onRegister: (user: UserProp) => Promise<MyResponse>;
 }
@@ -61,9 +61,14 @@ const AuthContext = createContext<AuthContextType>({
   onLogin: async () =>
     Promise.resolve({
       status_code: 500,
-      data: "Initial response data",
+      data: {
+        username: "",
+        email: "",
+        profileSet: false,
+        roles: []
+      },
     }),
-  onLogout: () => {},
+  onLogout: () => { },
   onRegister: () =>
     Promise.resolve({
       status_code: 500,
@@ -116,13 +121,14 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const handleLogin = async (
     username: string,
     password: string
-  ): Promise<MyResponse> => {
+  ): Promise<UserResponseProp | MyErrorResponse> => {
     const res = await login(username, password);
     if (res.status == 200) {
       if (!res.data.token || !res.data.roles) {
         return {
+          error: true,
           status_code: 401,
-          data: "Invalid token or roles",
+          message: "Invalid token or roles",
         };
       }
 
@@ -163,18 +169,10 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     const res = await register(user);
 
     console.log(res);
-    if (res.data.status_code == 201) {
-      return {
-        status: res.data.status,
-        status_code: res.status,
-        data: res.data,
-      };
-    } else {
-      return {
-        status: res.data.status,
-        status_code: res.status,
-        data: res.data.message,
-      };
+    return {
+      status: res.data.status,
+      status_code: res.status,
+      data: res.data.message,
     }
   };
 

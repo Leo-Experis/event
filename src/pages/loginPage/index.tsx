@@ -4,13 +4,15 @@ import "./style.css";
 import MyButton from "../../components/myButton";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import { ErrorResponse } from "../../proptypes/ResponseProp";
+import { MyErrorResponse } from "../../proptypes/ResponseProp";
+import useProfile from "../../hooks/useProfile";
 
 export default function LoginPage() {
   const [user, setUser] = useState({ username: "", password: "" });
   const navigate = useNavigate();
   const { onLogin } = useAuth();
-  const [error, setError] = useState<ErrorResponse>();
+  const { setUsernameEmail } = useProfile();
+  const [error, setError] = useState<MyErrorResponse>();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
@@ -21,10 +23,16 @@ export default function LoginPage() {
   const handleSubmit = async () => {
     const res = await onLogin(user.username, user.password);
     console.log(res);
-    if (res.status_code == 200) {
-      navigate("/");
+    if ('data' in res) {
+      if (res.data.profileSet) {
+        navigate("/");
+      } else {
+        setUsernameEmail(res.data.username, res.data.email)
+        navigate("/setupAccount")
+
+      }
     } else {
-      setError({ error: true, error_code: res.status_code, data: res.data });
+      setError({ error: true, status_code: res.status_code, message: res.message });
     }
   };
 
@@ -56,7 +64,7 @@ export default function LoginPage() {
               />
             </div>
             {error?.error ? (
-              <div className="error-message">{error.data}</div>
+              <div className="error-message">{error.message}</div>
             ) : (
               <div className="error-message-holder"></div>
             )}

@@ -42,15 +42,16 @@ const CenterAspectCrop = (
 };
 
 const ChangeProfilePicture = () => {
-  const { setProfilePicture } = useProfile();
+  const { registerProfile } = useProfile();
   const [profilePicture, _setProfilePicture] = useState<string | null>(null);
   const [crop, setCrop] = useState<Crop>();
   const navigate = useNavigate();
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
   /*
   const [rotate, setRotate] = useState(0);
-   const [aspect, setAspect] = useState<number | undefined>(4 / 3);
+   
   */
+  const aspect = (4 / 3);
 
   const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -64,11 +65,30 @@ const ChangeProfilePicture = () => {
   };
 
   const onImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    if (4 / 3 /* aspect variable*/) {
+    if (aspect /* aspect variable*/) {
       const { width, height } = e.currentTarget;
-      setCrop(CenterAspectCrop(width, height, 4 / 3 /* aspect variable*/));
+      setCrop(CenterAspectCrop(width, height, aspect /* aspect variable*/));
     }
   };
+
+  const handleSubmit = async () => {
+    if (completedCrop) {
+      const saved = await OnSave({
+        completedCrop,
+        savePicture: profilePicture!,
+      });
+      if (saved.status === 200) {
+        const res = await registerProfile(saved.base64Image);
+        console.log("Inside what should work: " + res)
+        if (res.status_code == 201) {
+          navigate("/")
+        }
+
+
+      }
+    }
+  }
+
 
   return (
     <div className="change-profile-picture-box">
@@ -78,7 +98,7 @@ const ChangeProfilePicture = () => {
             crop={crop}
             onChange={(_, percentCrop) => setCrop(percentCrop)}
             onComplete={(c) => setCompletedCrop(c)}
-            aspect={4 / 3} /* aspect variable*/
+            aspect={aspect} /* aspect variable*/
             minWidth={300}
             circularCrop={true}
           >
@@ -126,18 +146,7 @@ const ChangeProfilePicture = () => {
           <MyButton
             className="login-button"
             title="Next"
-            onClick={async () => {
-              if (completedCrop) {
-                const saved = await OnSave({
-                  completedCrop,
-                  savePicture: profilePicture,
-                });
-                if (saved.status === 200) {
-                  setProfilePicture(saved.base64Image);
-                  navigate("/");
-                }
-              }
-            }}
+            onClick={handleSubmit}
           ></MyButton>
         </div>
       ) : null}

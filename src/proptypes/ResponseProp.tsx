@@ -3,10 +3,10 @@ interface MyResponse {
   data: string;
 }
 
-interface ErrorResponse {
+interface MyErrorResponse {
   error: boolean;
-  error_code: number;
-  data: string;
+  status_code: number;
+  message: string;
 }
 
 interface OnSaveResponse {
@@ -14,4 +14,4 @@ interface OnSaveResponse {
   base64Image: string;
 }
 
-export type { MyResponse, ErrorResponse, OnSaveResponse };
+export type { MyResponse, MyErrorResponse, OnSaveResponse };

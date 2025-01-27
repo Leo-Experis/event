@@ -4,7 +4,7 @@ import MyButton from "../../../components/myButton";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
 import useAuth from "../../../hooks/useAuth";
-import { ErrorResponse } from "../../../proptypes/ResponseProp";
+import { MyErrorResponse } from "../../../proptypes/ResponseProp";
 import useProfile from "../../../hooks/useProfile";
 import DatePicker from "react-datepicker";
 
@@ -18,7 +18,7 @@ export default function RegsiterPage() {
     password: "",
   });
   const [dob, setDOB] = useState<Date | null>(new Date());
-  const [error, setError] = useState<ErrorResponse>();
+  const [error, setError] = useState<MyErrorResponse>();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
@@ -29,16 +29,11 @@ export default function RegsiterPage() {
 
   const handleRegister = async () => {
     const res = await onRegister(newUser);
-    setError({ error: false, error_code: 0, data: "" });
     if (res.status_code == 201) {
-      setUsernameEmail({
-        username: newUser.username,
-        email: newUser.email,
-        password: "",
-      });
+      setUsernameEmail(newUser.username, newUser.email);
       navigate("/login");
     } else {
-      setError({ error: true, error_code: res.status_code, data: res.data });
+      setError({ error: true, status_code: res.status_code, message: res.data });
     }
   };
 
@@ -96,7 +91,7 @@ export default function RegsiterPage() {
               </div>
             </div>
             {error?.error ? (
-              <div className="error-message">{error.data}</div>
+              <div className="error-message">{error.message}</div>
             ) : (
               <div className="error-message-holder"></div>
             )}

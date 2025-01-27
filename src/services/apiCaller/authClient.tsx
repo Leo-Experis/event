@@ -8,7 +8,7 @@ import { post } from "../apiClient";
  * @param {string} password - The password of the user.
  * @returns {Promise<any>} The response from the API.
  */
-async function login(username: string, password: String) {
+async function login(username: string, password: string) {
   return await post("auth/signin", { username, password }, false);
 }
 

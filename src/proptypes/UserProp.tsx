@@ -4,13 +4,15 @@ interface UserProp {
   password: string;
 }
 
-interface ProfileProp {
-  firstName: string;
-  lastName: string;
-  dob: Date;
-  phonenumber: string;
-  username: string;
-  email: string;
+interface UserResponseProp {
+  status_code: number;
+  data: {
+    username: string;
+    email: string;
+    profileSet: boolean;
+    roles: []
+  }
 }
 
-export type { UserProp, ProfileProp };
+
+export type { UserProp, UserResponseProp };
