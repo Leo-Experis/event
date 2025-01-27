@@ -36,7 +36,7 @@ export default function RegsiterPage() {
         email: newUser.email,
         password: "",
       });
-      navigate("/setupAccount");
+      navigate("/login");
     } else {
       setError({ error: true, error_code: res.status_code, data: res.data });
     }

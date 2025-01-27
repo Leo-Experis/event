@@ -14,39 +14,41 @@ function App() {
   return (
     <>
       <AuthProvider>
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegsiterPage />} />
-          <Route path="/setupAccount" element={<SetupAccount />} />
-          <Route path="/addProfilePicture" element={<ProfilePicturePage />} />
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <MyEventPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/search"
-            element={
-              <ProtectedRoute>
-                <MainPage />
-              </ProtectedRoute>
-            }
-          />
+        <ProfileProvider>
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegsiterPage />} />
+            <Route path="/setupAccount" element={<SetupAccount />} />
+            <Route path="/addProfilePicture" element={<ProfilePicturePage />} />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <MyEventPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/search"
+              element={
+                <ProtectedRoute>
+                  <MainPage />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="/createEvent"
-            element={
-              <ProtectedRoute>
-                <CreateEventPage />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/createEvent"
+              element={
+                <ProtectedRoute>
+                  <CreateEventPage />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </ProfileProvider>
       </AuthProvider>
     </>
   );

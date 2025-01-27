@@ -46,8 +46,9 @@ const ProfileProvider = ({ children }: { children: ReactNode }) => {
     return profilePicture;
   };
 
-  const setProfilePicture = (profilePicture: string) => {
-    _setProfilePicture(profilePicture);
+  const setProfilePicture = (_profilePicture: string) => {
+    _setProfilePicture(_profilePicture);
+    console.log(_profilePicture)
   };
 
   const value = {

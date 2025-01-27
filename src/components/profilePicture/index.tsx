@@ -128,7 +128,10 @@ const ChangeProfilePicture = () => {
             title="Next"
             onClick={async () => {
               if (completedCrop) {
-                const saved = await OnSave({ completedCrop, profilePicture });
+                const saved = await OnSave({
+                  completedCrop,
+                  savePicture: profilePicture,
+                });
                 if (saved.status === 200) {
                   setProfilePicture(saved.base64Image);
                   navigate("/");
