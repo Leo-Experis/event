@@ -6,6 +6,7 @@ import "./style.css";
 export default function MyEventPage() {
   const { username } = useAuth();
   const { getProfilePicture } = useProfile();
+  console.log(getProfilePicture());
   return (
     <div className="main-body">
       <div className="welcome-back-parent">

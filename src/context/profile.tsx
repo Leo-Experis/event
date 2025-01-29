@@ -109,6 +109,8 @@ const ProfileProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const getProfilePicture = () => {
+    console.log("Inside profile picture: ");
+    console.log(profile);
     return profile.profilePicture ? profile.profilePicture : null;
   };
 

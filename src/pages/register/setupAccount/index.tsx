@@ -6,9 +6,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import MyButton from "../../../components/myButton";
 import { useNavigate } from "react-router-dom";
 import { ProfileProp } from "../../../proptypes/ProfileProp";
+import useAuth from "../../../hooks/useAuth";
 
 export default function SetupAccount() {
-  const { getProfile, registerProfile, updateProfile } = useProfile();
+  const { getProfile, registerProfile } = useProfile();
+  const { updateProfileSet } = useAuth();
   const navigate = useNavigate();
   const [fullName, setFullname] = useState("");
 
@@ -43,7 +45,8 @@ export default function SetupAccount() {
   const handleSubmit = async () => {
     const res = await registerProfile(profile);
     console.log(res);
-    if (res.status_code == 201) {
+    if (res.status_code == 201 && "data" in res) {
+      updateProfileSet(res.data.username, { profileSet: true });
       navigate("/addProfilePicture");
     }
   };

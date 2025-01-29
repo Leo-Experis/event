@@ -13,7 +13,7 @@ import { ReactNode } from "react";
 import useAuth from "../hooks/useAuth";
 import NavigationBar from "../components/navigationBar";
 import { UserProp, UserResponseProp } from "../proptypes/UserProp";
-import { login, register } from "../services/apiCaller/authClient";
+import { login, profileSet, register } from "../services/apiCaller/authClient";
 import { MyErrorResponse, MyResponse } from "../proptypes/ResponseProp";
 import { EventProvider } from "./event";
 
@@ -30,9 +30,16 @@ interface AuthContextType {
   role: string | null;
   username: string;
   userId: number;
-  onLogin: (username: string, password: string) => Promise<UserResponseProp | MyErrorResponse>;
+  onLogin: (
+    username: string,
+    password: string
+  ) => Promise<UserResponseProp | MyErrorResponse>;
   onLogout: () => void;
   onRegister: (user: UserProp) => Promise<MyResponse>;
+  updateProfileSet: (
+    username: string,
+    boolean: { profileSet: boolean }
+  ) => Promise<MyResponse>;
 }
 
 /**
@@ -65,11 +72,16 @@ const AuthContext = createContext<AuthContextType>({
         username: "",
         email: "",
         profileSet: false,
-        roles: []
+        roles: [],
       },
     }),
-  onLogout: () => { },
+  onLogout: () => {},
   onRegister: () =>
+    Promise.resolve({
+      status_code: 500,
+      data: "Initial response data",
+    }),
+  updateProfileSet: async () =>
     Promise.resolve({
       status_code: 500,
       data: "Initial response data",
@@ -173,7 +185,17 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       status: res.data.status,
       status_code: res.status,
       data: res.data.message,
-    }
+    };
+  };
+
+  const updateProfileSet = async (username: string, boolean: {profileSet: boolean}) => {
+    const res = await profileSet(username, boolean);
+
+    return {
+      status: res.data.status,
+      status_code: res.data.status,
+      data: res.data.message,
+    };
   };
 
   const value = {
@@ -184,6 +206,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     onLogin: handleLogin,
     onLogout: handleLogout,
     onRegister: handleRegister,
+    updateProfileSet,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

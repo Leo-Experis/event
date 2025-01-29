@@ -10,7 +10,7 @@ async function getProfile(id: number) {
 }
 
 async function putProfilePicture(id: number, imageBlob: Blob) {
-  return await putBlob(`profile/addImage/11`, imageBlob, true);
+  return await putBlob(`profile/addImage/${id}`, imageBlob, true);
 }
 
 async function getAllProfiles() {

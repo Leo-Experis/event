@@ -1,5 +1,5 @@
 import { UserProp } from "../../proptypes/UserProp";
-import { post } from "../apiClient";
+import { post, put } from "../apiClient";
 
 /**
  * Logs in a user with the provided username and password.
@@ -16,4 +16,8 @@ async function register(user: UserProp) {
   return await post("auth/signup", user, false);
 }
 
-export { login, register };
+async function profileSet(username: string, boolean: { profileSet: boolean }) {
+  return await put(`users/profile/${username}`, boolean, true);
+}
+
+export { login, register, profileSet };
