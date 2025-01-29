@@ -8,18 +8,19 @@ import { useNavigate } from "react-router-dom";
 import { ProfileProp } from "../../../proptypes/ProfileProp";
 
 export default function SetupAccount() {
-  const { getProfile, updateProfile } = useProfile();
+  const { getProfile, registerProfile, updateProfile } = useProfile();
   const navigate = useNavigate();
-  const [fullName, setFullname] = useState("")
+  const [fullName, setFullname] = useState("");
 
   const [profile, setProfile] = useState<ProfileProp>({
+    id: 0,
     firstName: "",
     lastName: "",
     dob: "",
     phoneNumber: "",
     username: getProfile().username,
     email: getProfile().email,
-    profilePicture: ""
+    profilePicture: null,
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,25 +28,25 @@ export default function SetupAccount() {
     const { name, value } = target;
 
     if (name == "fullName") {
+      const nameSplit = value.split(" ");
       setFullname(value);
-
+      setProfile({
+        ...profile,
+        ["firstName"]: nameSplit[0],
+        ["lastName"]: nameSplit[1],
+      });
     } else {
       setProfile({ ...profile, [name]: value });
     }
-
   };
 
   const handleSubmit = async () => {
-    const nameSplit = fullName.split(" ")
-    console.log(nameSplit)
-    await setProfile({
-      ...profile,
-      ['firstName']: nameSplit[0],
-      ['lastName']: nameSplit[1]
-    })
-    await updateProfile(profile);
-    navigate("/addProfilePicture")
-  }
+    const res = await registerProfile(profile);
+    console.log(res);
+    if (res.status_code == 201) {
+      navigate("/addProfilePicture");
+    }
+  };
 
   return (
     <div className="setup-account-body">

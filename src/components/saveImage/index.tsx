@@ -12,7 +12,7 @@ const OnSave = ({
   completedCrop: PixelCrop;
   savePicture: string;
 }) => {
-  return new Promise<{ status: number; base64Image: string }>((resolve) => {
+  return new Promise<{ status: number; image: Blob | null }>((resolve) => {
     const image = new Image();
     image.src = savePicture;
     image.onload = () => {
@@ -38,23 +38,23 @@ const OnSave = ({
         const base64Image = canvas.toDataURL("image/png");
         // Save base64Image to your database
         //JUST FOR FUN, THIS IS GOING TO SAVE TO DATABASE
-        resolve({ status: 200, base64Image: base64Image });
+
         canvas.toBlob(
           (blob) => {
             if (blob) {
-              console.log(blob);
+              resolve({ status: 200, image: blob });
             }
           },
           "image/png",
           1
         );
       } else {
-        resolve({ status: 404, base64Image: "" });
+        resolve({ status: 404, image: null });
       }
     };
 
     image.onerror = () => {
-      resolve({ status: 404, base64Image: "" });
+      resolve({ status: 404, image: null });
     };
   });
 };

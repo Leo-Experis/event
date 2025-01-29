@@ -33,7 +33,11 @@ export default function RegsiterPage() {
       setUsernameEmail(newUser.username, newUser.email);
       navigate("/login");
     } else {
-      setError({ error: true, status_code: res.status_code, message: res.data });
+      setError({
+        error: true,
+        status_code: res.status_code,
+        message: res.data,
+      });
     }
   };
 
@@ -79,6 +83,7 @@ export default function RegsiterPage() {
                   showYearDropdown
                   showMonthDropdown
                   dropdownMode="select"
+                  name="dob"
                   value={dob ? dob.toISOString().split("T")[0] : ""}
                   icon={
                     <img

@@ -1,74 +1,107 @@
 import { createContext, ReactNode, useState } from "react";
 import { MyErrorResponse } from "../proptypes/ResponseProp";
 import { ProfileProp, ProfileResponseProp } from "../proptypes/ProfileProp";
-import { createProfile } from "../services/apiCaller/profileClient";
+import {
+  createProfile,
+  putProfilePicture,
+} from "../services/apiCaller/profileClient";
 
 interface ProfileContextType {
   profile: ProfileProp | {};
-  getProfilePicture: () => string;
+  getProfilePicture: () => Blob | null;
   setUsernameEmail: (username: string, email: string) => void;
   updateProfile: (profile: ProfileProp) => void;
+  updateProfilePicture: (
+    image: Blob
+  ) => Promise<ProfileResponseProp | MyErrorResponse>;
   getProfile: () => ProfileProp;
-  registerProfile: (profilePicture: string) => Promise<ProfileResponseProp | MyErrorResponse>;
+  registerProfile: (
+    profile: ProfileProp
+  ) => Promise<ProfileResponseProp | MyErrorResponse>;
 }
 
 const ProfileContext = createContext<ProfileContextType>({
   profile: {},
-  getProfilePicture: () => "",
-  setUsernameEmail: () => { },
-  updateProfile: () => { },
+  getProfilePicture: () => new Blob(),
+  setUsernameEmail: () => {},
+  updateProfile: () => {},
+  updateProfilePicture: async () => {
+    return Promise.resolve<ProfileResponseProp | MyErrorResponse>({
+      status_code: 500,
+      data: {
+        id: 0,
+        firstName: "",
+        lastName: "",
+        username: "",
+        email: "",
+        dob: "",
+        phoneNumber: "",
+        profilePicture: null,
+      },
+    });
+  },
   getProfile: () => {
     return {
+      id: 0,
       firstName: "",
       lastName: "",
       username: "",
       email: "",
       dob: "",
       phoneNumber: "",
-      profilePicture: "",
+      profilePicture: null,
     };
   },
   registerProfile: async () => {
-    return Promise.resolve<ProfileResponseProp | MyErrorResponse>(
-      {
-        status_code: 500,
-        data: {
-          firstName: "",
-          lastName: "",
-          username: "",
-          email: "",
-          dob: "",
-          phoneNumber: "",
-          profilePicture: "",
-        }
-      }
-    );
-  }
+    return Promise.resolve<ProfileResponseProp | MyErrorResponse>({
+      status_code: 500,
+      data: {
+        id: 0,
+        firstName: "",
+        lastName: "",
+        username: "",
+        email: "",
+        dob: "",
+        phoneNumber: "",
+        profilePicture: null,
+      },
+    });
+  },
 });
 
 const ProfileProvider = ({ children }: { children: ReactNode }) => {
   const [profile, setProfile] = useState<ProfileProp>({
+    id: 0,
     firstName: "",
     lastName: "",
     username: "",
     email: "",
     dob: "",
     phoneNumber: "",
-    profilePicture: "",
+    profilePicture: null,
   });
 
   const setUsernameEmail = (username: string, email: string) => {
     setProfile({
       ...profile,
-      ['email']: email,
-      ['username']: username
+      ["email"]: email,
+      ["username"]: username,
     });
   };
 
-  const updateProfile = (profile: ProfileProp) => {
-    console.log("updateProfile: ")
-    console.log(profile)
+  const updateProfile = async (profile: ProfileProp) => {
     setProfile(profile);
+  };
+
+  const updateProfilePicture = async (image: Blob) => {
+    const res = await putProfilePicture(profile.id, image);
+    console.log(res);
+    setProfile(res.data);
+    return {
+      status: res.data.status,
+      status_code: res.status,
+      data: res.data,
+    };
   };
 
   const getProfile = () => {
@@ -76,31 +109,30 @@ const ProfileProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const getProfilePicture = () => {
-    return profile.profilePicture;
+    return profile.profilePicture ? profile.profilePicture : null;
   };
 
-  const registerProfile = async (profilePicture: string) => {
-    await setProfile({ ...profile, ['profilePicture']: profilePicture })
-    console.log("Inside register:")
-    console.log(profile);
-    const res = await createProfile(profile);
+  const registerProfile = async (_profile: ProfileProp) => {
+    const res = await createProfile(_profile);
     console.log(res);
+
+    setProfile(res.data);
 
     return {
       status: res.data.status,
       status_code: res.status,
       data: res.data,
-    }
-
-  }
+    };
+  };
 
   const value = {
     profile,
     getProfilePicture,
     setUsernameEmail,
     updateProfile,
+    updateProfilePicture,
     getProfile,
-    registerProfile
+    registerProfile,
   };
 
   return (

@@ -79,4 +79,39 @@ async function request(
   return { status: response.status, data: responseData.data };
 }
 
-export { get, post, put };
+async function putBlob(endpoint: string, file: Blob, auth: Boolean = true) {
+  console.log(file);
+  const formData = new FormData();
+  formData.append("file", file);
+  return await requestToCloudStorage("PUT", endpoint, file, auth);
+}
+
+async function requestToCloudStorage(
+  method: string,
+  endpoint: string,
+  file: Blob,
+  auth: Boolean = true
+) {
+  const opts: RequestInit = {
+    headers: {},
+    method,
+  };
+
+  if (method.toUpperCase() !== "GET") {
+    const formData = new FormData();
+    formData.append("file", file);
+    opts.body = formData;
+  }
+
+  if (auth) {
+    (opts.headers as Record<string, string>)[
+      "Authorization"
+    ] = `Bearer ${localStorage.getItem("token")}`;
+  }
+
+  const response = await fetch(`${API_URL}/${endpoint}`, opts);
+  const responseData = await response.json();
+  return { status: response.status, data: responseData.data };
+}
+
+export { get, post, put, putBlob };

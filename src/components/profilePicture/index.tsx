@@ -8,11 +8,11 @@ import ReactCrop, {
 import "react-image-crop/dist/ReactCrop.css";
 import MyButton from "../myButton";
 import "./style.css";
-import useProfile from "../../hooks/useProfile";
 import { useNavigate } from "react-router-dom";
 import OnSave from "../saveImage";
+import useProfile from "../../hooks/useProfile";
 
-const MyProfilePicture = ({ imgString }: { imgString: string }) => {
+const MyProfilePicture = ({ imgString }: { imgString: Blob | null }) => {
   return (
     <div
       className="profile-picture-logo"
@@ -42,16 +42,16 @@ const CenterAspectCrop = (
 };
 
 const ChangeProfilePicture = () => {
-  const { registerProfile } = useProfile();
   const [profilePicture, _setProfilePicture] = useState<string | null>(null);
   const [crop, setCrop] = useState<Crop>();
   const navigate = useNavigate();
+  const { updateProfilePicture } = useProfile();
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
   /*
   const [rotate, setRotate] = useState(0);
    
   */
-  const aspect = (4 / 3);
+  const aspect = 4 / 3;
 
   const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -78,17 +78,13 @@ const ChangeProfilePicture = () => {
         savePicture: profilePicture!,
       });
       if (saved.status === 200) {
-        const res = await registerProfile(saved.base64Image);
-        console.log("Inside what should work: " + res)
+        const res = await updateProfilePicture(saved.image!);
         if (res.status_code == 201) {
-          navigate("/")
+          navigate("/");
         }
-
-
       }
     }
-  }
-
+  };
 
   return (
     <div className="change-profile-picture-box">
