@@ -3,26 +3,39 @@ import { MyErrorResponse } from "../proptypes/ResponseProp";
 import { ProfileProp, ProfileResponseProp } from "../proptypes/ProfileProp";
 import {
   createProfile,
+  getProfile,
   putProfilePicture,
 } from "../services/apiCaller/profileClient";
 
 interface ProfileContextType {
-  profile: ProfileProp | {};
-  getProfilePicture: () => Blob | null;
+  profile: ProfileProp;
+  getProfilePicture: () => URL | null;
   setUsernameEmail: (username: string, email: string) => void;
   updateProfile: (profile: ProfileProp) => void;
   updateProfilePicture: (
     image: Blob
   ) => Promise<ProfileResponseProp | MyErrorResponse>;
-  getProfile: () => ProfileProp;
+  getProfileOnStartup: (
+    id: number
+  ) => Promise<ProfileResponseProp | MyErrorResponse>;
+  getCurrentProfile: () => ProfileProp;
   registerProfile: (
     profile: ProfileProp
   ) => Promise<ProfileResponseProp | MyErrorResponse>;
 }
 
 const ProfileContext = createContext<ProfileContextType>({
-  profile: {},
-  getProfilePicture: () => new Blob(),
+  profile: {
+    id: 0,
+    firstName: "",
+    lastName: "",
+    username: "",
+    email: "",
+    dob: "",
+    phoneNumber: "",
+    profilePicture: null,
+  },
+  getProfilePicture: () => null,
   setUsernameEmail: () => {},
   updateProfile: () => {},
   updateProfilePicture: async () => {
@@ -40,7 +53,7 @@ const ProfileContext = createContext<ProfileContextType>({
       },
     });
   },
-  getProfile: () => {
+  getCurrentProfile: () => {
     return {
       id: 0,
       firstName: "",
@@ -51,6 +64,21 @@ const ProfileContext = createContext<ProfileContextType>({
       phoneNumber: "",
       profilePicture: null,
     };
+  },
+  getProfileOnStartup: () => {
+    return Promise.resolve<ProfileResponseProp | MyErrorResponse>({
+      status_code: 500,
+      data: {
+        id: 0,
+        firstName: "",
+        lastName: "",
+        username: "",
+        email: "",
+        dob: "",
+        phoneNumber: "",
+        profilePicture: null,
+      },
+    });
   },
   registerProfile: async () => {
     return Promise.resolve<ProfileResponseProp | MyErrorResponse>({
@@ -104,15 +132,36 @@ const ProfileProvider = ({ children }: { children: ReactNode }) => {
     };
   };
 
-  const getProfile = () => {
+  const getProfileOnStartup = async (id: number) => {
+    const res = await getProfile(id);
+    setProfile(res.data);
+    console.log("Inside getProfileOnStartup");
+    console.log(res.data);
+    return {
+      status: res.data.status,
+      status_code: res.status,
+      data: res.data,
+    };
+  };
+
+  const getCurrentProfile = () => {
     return profile;
   };
 
-  const getProfilePicture = () => {
-    console.log("Inside profile picture: ");
-    console.log(profile);
-    return profile.profilePicture ? profile.profilePicture : null;
-  };
+  const getProfilePicture = (): URL | null => {
+      if (typeof profile.profilePicture === "string") {
+        const byteCharacters = atob(profile.profilePicture);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        profile.profilePicture = new Blob([byteArray], { type: "image/jpeg" });
+      }
+      return profile.profilePicture instanceof Blob
+        ? new URL(URL.createObjectURL(profile.profilePicture))
+        : null;
+    };
 
   const registerProfile = async (_profile: ProfileProp) => {
     const res = await createProfile(_profile);
@@ -133,8 +182,9 @@ const ProfileProvider = ({ children }: { children: ReactNode }) => {
     setUsernameEmail,
     updateProfile,
     updateProfilePicture,
-    getProfile,
     registerProfile,
+    getProfileOnStartup,
+    getCurrentProfile,
   };
 
   return (

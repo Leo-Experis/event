@@ -35,10 +35,7 @@ const OnSave = ({
           completedCrop.width * scaleX,
           completedCrop.height * scaleY
         );
-        const base64Image = canvas.toDataURL("image/png");
-        // Save base64Image to your database
-        //JUST FOR FUN, THIS IS GOING TO SAVE TO DATABASE
-
+        
         canvas.toBlob(
           (blob) => {
             if (blob) {

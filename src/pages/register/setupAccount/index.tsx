@@ -9,7 +9,7 @@ import { ProfileProp } from "../../../proptypes/ProfileProp";
 import useAuth from "../../../hooks/useAuth";
 
 export default function SetupAccount() {
-  const { getProfile, registerProfile } = useProfile();
+  const { getCurrentProfile, registerProfile } = useProfile();
   const { updateProfileSet } = useAuth();
   const navigate = useNavigate();
   const [fullName, setFullname] = useState("");
@@ -20,8 +20,8 @@ export default function SetupAccount() {
     lastName: "",
     dob: "",
     phoneNumber: "",
-    username: getProfile().username,
-    email: getProfile().email,
+    username: getCurrentProfile().username,
+    email: getCurrentProfile().email,
     profilePicture: null,
   });
 
@@ -46,7 +46,10 @@ export default function SetupAccount() {
     const res = await registerProfile(profile);
     console.log(res);
     if (res.status_code == 201 && "data" in res) {
-      updateProfileSet(res.data.username, { profileSet: true });
+      updateProfileSet(res.data.username, {
+        profileSet: true,
+        profileID: res.data.id,
+      });
       navigate("/addProfilePicture");
     }
   };

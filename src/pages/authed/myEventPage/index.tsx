@@ -1,18 +1,16 @@
 import MyEventCard from "../../../components/eventCard";
 import { MyProfilePicture } from "../../../components/profilePicture";
-import useAuth from "../../../hooks/useAuth";
 import useProfile from "../../../hooks/useProfile";
 import "./style.css";
 export default function MyEventPage() {
-  const { username } = useAuth();
+  const { profile } = useProfile();
   const { getProfilePicture } = useProfile();
-  console.log(getProfilePicture());
   return (
     <div className="main-body">
       <div className="welcome-back-parent">
         <div className="welcome-back-message">
           <h2>Welcome Back!</h2>
-          <h3>{username}</h3>
+          <h3>{profile.username}</h3>
         </div>
 
         <MyProfilePicture imgString={getProfilePicture()} />

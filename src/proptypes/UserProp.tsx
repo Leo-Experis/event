@@ -10,9 +10,13 @@ interface UserResponseProp {
     username: string;
     email: string;
     profileSet: boolean;
-    roles: []
-  }
+    roles: [];
+  };
 }
 
+interface UpdateUserProfileProp {
+  profileSet: boolean;
+  profileID: number;
+}
 
-export type { UserProp, UserResponseProp };
+export type { UserProp, UserResponseProp, UpdateUserProfileProp };

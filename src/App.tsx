@@ -13,8 +13,8 @@ import CreateEventPage from "./pages/authed/createEventPage";
 function App() {
   return (
     <>
-      <AuthProvider>
-        <ProfileProvider>
+      <ProfileProvider>
+        <AuthProvider>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegsiterPage />} />
@@ -48,8 +48,8 @@ function App() {
 
             <Route path="*" element={<PageNotFound />} />
           </Routes>
-        </ProfileProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </ProfileProvider>
     </>
   );
 }

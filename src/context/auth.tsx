@@ -12,10 +12,15 @@ import { createContext } from "react";
 import { ReactNode } from "react";
 import useAuth from "../hooks/useAuth";
 import NavigationBar from "../components/navigationBar";
-import { UserProp, UserResponseProp } from "../proptypes/UserProp";
+import {
+  UpdateUserProfileProp,
+  UserProp,
+  UserResponseProp,
+} from "../proptypes/UserProp";
 import { login, profileSet, register } from "../services/apiCaller/authClient";
 import { MyErrorResponse, MyResponse } from "../proptypes/ResponseProp";
 import { EventProvider } from "./event";
+import useProfile from "../hooks/useProfile";
 
 /**
  * @interface AuthContextType
@@ -38,7 +43,7 @@ interface AuthContextType {
   onRegister: (user: UserProp) => Promise<MyResponse>;
   updateProfileSet: (
     username: string,
-    boolean: { profileSet: boolean }
+    userProfile: UpdateUserProfileProp
   ) => Promise<MyResponse>;
 }
 
@@ -53,6 +58,8 @@ interface jwtPayload {
     authorities: [{ authority: string }];
     username: string;
     id: number;
+    profileSet: boolean;
+    profileID: number;
   };
 }
 
@@ -98,6 +105,7 @@ const AuthContext = createContext<AuthContextType>({
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { getProfileOnStartup } = useProfile();
   const [token, setToken] = useState<string | null>(null);
   const [role, setRole] = useState<string | null>(null);
   const [username, setUsername] = useState<string>("");
@@ -114,6 +122,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUserId(user.id);
       const tokenDate = new Date(1000 * exp);
       const timestamp = new Date();
+      getProfileOnStartup(user.profileID);
+      
       if (tokenDate < timestamp) {
         handleLogout();
       } else if (user.authorities.length > 0) {
@@ -188,7 +198,10 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
   };
 
-  const updateProfileSet = async (username: string, boolean: {profileSet: boolean}) => {
+  const updateProfileSet = async (
+    username: string,
+    boolean: UpdateUserProfileProp
+  ) => {
     const res = await profileSet(username, boolean);
 
     return {

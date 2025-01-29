@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import OnSave from "../saveImage";
 import useProfile from "../../hooks/useProfile";
 
-const MyProfilePicture = ({ imgString }: { imgString: Blob | null }) => {
+const MyProfilePicture = ({ imgString }: { imgString: URL | null }) => {
   return (
     <div
       className="profile-picture-logo"
