@@ -8,14 +8,32 @@ const MyEventCard = ({
   owner,
   date,
   interested,
+  eventImage,
 }: {
   title: string;
   owner: string;
   date: string;
   interested: boolean;
+  eventImage: string;
 }) => {
+  const createImageFromString = (eventImage: string) => {
+    const byteCharacters = atob(eventImage);
+    const byteNumbers = new Array(byteCharacters.length);
+
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const image = new Blob([byteArray], { type: "image/jpeg" });
+
+    return new URL(URL.createObjectURL(image));
+  };
+
   return (
-    <div className="event-card-body">
+    <div
+      className="event-card-body"
+      style={{ backgroundImage: `url(${createImageFromString(eventImage)})` }}
+    >
       <div className="card-info-body">
         <div className="date-title-div">
           <p className="date-title">{date}</p>

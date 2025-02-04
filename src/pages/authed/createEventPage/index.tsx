@@ -7,30 +7,37 @@ import ReactCrop, { Crop, PixelCrop } from "react-image-crop";
 import { CenterAspectCrop } from "../../../components/profilePicture";
 import OnSave from "../../../components/saveImage";
 import { useNavigate } from "react-router-dom";
-import EventProp from "../../../proptypes/EventProp";
+import useAuth from "../../../hooks/useAuth";
+import { EventProp } from "../../../proptypes/EventProp";
+import useEvent from "../../../hooks/useEvent";
+import { MyErrorResponse } from "../../../proptypes/ResponseProp";
 
 export default function CreateEventPage() {
+  const { userId } = useAuth();
+  const { createEvents, uploadEventImage } = useEvent();
   const [eventDate, _setEventDate] = useState<Date | null>();
   const [eventImage, _setEventImage] = useState<string | null>(null);
   const [crop, setCrop] = useState<Crop>();
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
   const [newEvent, _setNewEvent] = useState<EventProp>({
-    title: "",
-    date: "",
-    description: "",
-    location: "",
-    image: "",
-    category: ""
-  })
+    id: 0,
+    eventName: "",
+    eventDate: "",
+    eventDescription: "",
+    eventPicture: "",
+    eventCreatorId: userId,
+  });
+  const [error, setError] = useState<MyErrorResponse>();
+
   const aspect = 16 / 9;
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
     const { name, value } = target;
 
-    _setNewEvent({ ...newEvent, [name]: value })
-  }
+    _setNewEvent({ ...newEvent, [name]: value });
+  };
 
   const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -47,6 +54,34 @@ export default function CreateEventPage() {
     if (aspect /* aspect variable*/) {
       const { width, height } = e.currentTarget;
       setCrop(CenterAspectCrop(width, height, aspect /* aspect variable*/));
+    }
+  };
+
+  const onSubmit = async () => {
+    const res = await createEvents(newEvent);
+    if ("data" in res) {
+      console.log(res.data.id);
+      if (completedCrop && eventImage) {
+        const saved = await OnSave({
+          completedCrop,
+          savePicture: eventImage,
+        });
+        if (saved.status === 200) {
+          const uploadImageRes = await uploadEventImage(
+            res.data.id,
+            saved.image!
+          );
+          if ("data" in uploadImageRes) {
+            navigate("/");
+          }
+        }
+      }
+    } else {
+      setError({
+        error: true,
+        status_code: res.status_code,
+        message: res.message,
+      });
     }
   };
 
@@ -99,17 +134,22 @@ export default function CreateEventPage() {
             </div>
           )}
           <MyInputField
-            placeholder="Event Description"
-            inputName="description"
-            value=""
+            placeholder="Event Name"
+            inputName="eventName"
+            value={newEvent.eventName}
             onChange={handleChange}
-
+          />
+          <MyInputField
+            placeholder="Event Description"
+            inputName="eventDescription"
+            value={newEvent.eventDescription}
+            onChange={handleChange}
           />
           <div className="date-picker-div">
             <DatePicker
               showIcon={true}
               onChange={(date) => _setEventDate(date)}
-              placeholderText="Select Date of event"
+              placeholderText="Start date and time"
               className="date-picker"
               dateFormat={"YYYY-MM-dd"}
               showYearDropdown
@@ -125,46 +165,22 @@ export default function CreateEventPage() {
               }
             />
           </div>
-          <MyInputField
-            placeholder="Event Time"
-            inputName="eventTime"
-            value=""
-            onChange={handleChange}
-          />
-          <MyInputField
-            placeholder="Event Location"
-            inputName="location"
-            value=""
-            onChange={handleChange}
-          />
-          <MyInputField
-            placeholder="Event Category"
-            inputName="category"
-            value=""
-            onChange={handleChange}
-          />
         </div>
+        {error ? (
+          <div className="error-message">{error.message}</div>
+        ) : (
+          <div className="error-message-holder"></div>
+        )}
         <div className="create-event-page-button">
           {eventImage ? (
             <MyButton
               className="login-button"
               title="Next"
-              onClick={async () => {
-                if (completedCrop) {
-                  const saved = await OnSave({ completedCrop, savePicture: eventImage });
-                  if (saved.status === 200) {
-
-                    navigate("/");
-                  }
-                }
-              }}
+              onClick={onSubmit}
             ></MyButton>
           ) : (
-            <MyButton
-              className="login-button"
-              title="Create Event" />
+            <MyButton className="login-button" title="Create Event" />
           )}
-
         </div>
       </div>
       <input

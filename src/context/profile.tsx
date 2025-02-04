@@ -55,7 +55,7 @@ const ProfileContext = createContext<ProfileContextType>({
   },
   getCurrentProfile: () => {
     return {
-      id: 0,
+    id: 0,
       firstName: "",
       lastName: "",
       username: "",

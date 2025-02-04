@@ -63,7 +63,7 @@ export default function LoginPage() {
                 changeVisibility={true}
               />
             </div>
-            {error?.error ? (
+            {error ? (
               <div className="error-message">{error.message}</div>
             ) : (
               <div className="error-message-holder"></div>

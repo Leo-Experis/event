@@ -112,25 +112,29 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [userId, setUserId] = useState<number>(0);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    const storedRole = localStorage.getItem("role");
+    const fetchData = async () => {
+      const storedToken = localStorage.getItem("token");
+      const storedRole = localStorage.getItem("role");
 
-    if (storedToken && storedRole) {
-      setToken(storedToken);
-      const { user, exp } = jwtDecode(storedToken) as jwtPayload;
-      setUsername(user.username);
-      setUserId(user.id);
-      const tokenDate = new Date(1000 * exp);
-      const timestamp = new Date();
-      getProfileOnStartup(user.profileID);
-      
-      if (tokenDate < timestamp) {
-        handleLogout();
-      } else if (user.authorities.length > 0) {
-        setRole(user.authorities[0].authority);
+      if (storedToken && storedRole) {
+        setToken(storedToken);
+        const { user, exp } = jwtDecode(storedToken) as jwtPayload;
+        setUsername(user.username);
+        setUserId(user.id);
+        const tokenDate = new Date(1000 * exp);
+        const timestamp = new Date();
+        await getProfileOnStartup(user.profileID);
+
+        if (tokenDate < timestamp) {
+          handleLogout();
+        } else if (user.authorities.length > 0) {
+          setRole(user.authorities[0].authority);
+        }
+        navigate(location.pathname || "/");
       }
-      navigate(location.pathname || "/");
-    }
+    };
+
+    fetchData();
   }, []);
 
   /**

@@ -1,11 +1,15 @@
 interface EventProp {
-    title: string,
-    date: string,
-    description: string,
-    location: string,
-    image: string,
-    category: string,
+  id: number
+  eventName: string;
+  eventDate: string;
+  eventDescription: string;
+  eventPicture: string;
+  eventCreatorId: number;
 }
 
+interface EventResponseProp {
+  status_code: number;
+  data: EventProp;
+}
 
-export default EventProp
+export type { EventProp, EventResponseProp };
