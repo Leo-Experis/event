@@ -1,18 +1,18 @@
+import { MyResponse } from "./ResponseProp";
+
 interface UserProp {
   username: string;
   email: string;
   password: string;
 }
 
-interface UserResponseProp {
-  status_code: number;
-  data: {
+interface UserResponseProp
+  extends MyResponse<{
     username: string;
     email: string;
     profileSet: boolean;
     roles: [];
-  };
-}
+  }> {}
 
 interface UpdateUserProfileProp {
   profileSet: boolean;

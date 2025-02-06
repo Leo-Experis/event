@@ -123,6 +123,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUserId(user.id);
         const tokenDate = new Date(1000 * exp);
         const timestamp = new Date();
+        console.log(user);
         await getProfileOnStartup(user.profileID);
 
         if (tokenDate < timestamp) {
@@ -154,13 +155,13 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         return {
           error: true,
           status_code: 401,
-          message: "Invalid token or roles",
+          data: "Invalid token or roles",
         };
       }
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("role", res.data.roles[0]);
-
+      await getProfileOnStartup(res.data.profileID);
       setUserId(res.data.id);
       setToken(res.data.token);
       setRole(res.data.roles[0]);

@@ -11,12 +11,15 @@ import "./style.css";
 import { useNavigate } from "react-router-dom";
 import OnSave from "../saveImage";
 import useProfile from "../../hooks/useProfile";
+import useAuth from "../../hooks/useAuth";
 
 const MyProfilePicture = ({ imgString }: { imgString: URL | null }) => {
+  const { onLogout } = useAuth();
   return (
     <div
       className="profile-picture-logo"
       style={{ backgroundImage: `url(${imgString})` }}
+      onClick={onLogout}
     ></div>
   );
 };

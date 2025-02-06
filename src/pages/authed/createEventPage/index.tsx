@@ -11,6 +11,10 @@ import useAuth from "../../../hooks/useAuth";
 import { EventProp } from "../../../proptypes/EventProp";
 import useEvent from "../../../hooks/useEvent";
 import { MyErrorResponse } from "../../../proptypes/ResponseProp";
+import {
+  isErrorResponse,
+  isEventResponse,
+} from "../../../components/responseGuard";
 
 export default function CreateEventPage() {
   const { userId } = useAuth();
@@ -57,10 +61,21 @@ export default function CreateEventPage() {
     }
   };
 
+  const onSubmitTest = async () => {
+    if (completedCrop && eventImage) {
+      const saved = await OnSave({
+        completedCrop,
+        savePicture: eventImage,
+      });
+      if (saved.status === 200) {
+        console.log(saved.image);
+      }
+    }
+  };
+
   const onSubmit = async () => {
     const res = await createEvents(newEvent);
-    if ("data" in res) {
-      console.log(res.data.id);
+    if (isEventResponse(res)) {
       if (completedCrop && eventImage) {
         const saved = await OnSave({
           completedCrop,
@@ -76,11 +91,17 @@ export default function CreateEventPage() {
           }
         }
       }
-    } else {
+    } else if (isErrorResponse(res)) {
       setError({
         error: true,
         status_code: res.status_code,
-        message: res.message,
+        data: res.data,
+      });
+    } else {
+      setError({
+        error: true,
+        status_code: 500,
+        data: "Internal server error",
       });
     }
   };
@@ -100,12 +121,12 @@ export default function CreateEventPage() {
                 onComplete={(c) => setCompletedCrop(c)}
                 aspect={aspect}
                 maxHeight={200}
+                minHeight={100}
                 className="event-cropper"
               >
                 <img
                   alt="Crop-me"
                   src={eventImage}
-                  style={{ transform: `scale(${1}) rotate(${0}deg)` }}
                   className="added-image"
                   onLoad={onImageLoad}
                 />
@@ -167,7 +188,7 @@ export default function CreateEventPage() {
           </div>
         </div>
         {error ? (
-          <div className="error-message">{error.message}</div>
+          <div className="error-message">{error.data}</div>
         ) : (
           <div className="error-message-holder"></div>
         )}

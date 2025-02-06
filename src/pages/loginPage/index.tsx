@@ -6,6 +6,10 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { MyErrorResponse } from "../../proptypes/ResponseProp";
 import useProfile from "../../hooks/useProfile";
+import {
+  isErrorResponse,
+  isUserResponse,
+} from "../../components/responseGuard";
 
 export default function LoginPage() {
   const [user, setUser] = useState({ username: "", password: "" });
@@ -23,16 +27,22 @@ export default function LoginPage() {
   const handleSubmit = async () => {
     const res = await onLogin(user.username, user.password);
     console.log(res);
-    if ('data' in res) {
+
+    if (isUserResponse(res)) {
       if (res.data.profileSet) {
         navigate("/");
       } else {
-        setUsernameEmail(res.data.username, res.data.email)
-        navigate("/setupAccount")
-
+        setUsernameEmail(res.data.username, res.data.email);
+        navigate("/setupAccount");
       }
+    } else if (isErrorResponse(res)) {
+      setError({ error: true, status_code: res.status_code, data: res.data });
     } else {
-      setError({ error: true, status_code: res.status_code, message: res.message });
+      setError({
+        error: true,
+        status_code: 500,
+        data: "Internal Server error",
+      });
     }
   };
 
@@ -64,7 +74,7 @@ export default function LoginPage() {
               />
             </div>
             {error ? (
-              <div className="error-message">{error.message}</div>
+              <div className="error-message">{error.data}</div>
             ) : (
               <div className="error-message-holder"></div>
             )}

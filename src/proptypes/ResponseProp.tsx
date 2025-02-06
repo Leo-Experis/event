@@ -1,12 +1,11 @@
-interface MyResponse {
+interface MyResponse<T = string | object> {
   status_code: number;
-  data: string;
+  data: T;
 }
 
-interface MyErrorResponse {
+interface MyErrorResponse extends MyResponse {
   error: boolean;
-  status_code: number;
-  message: string;
+  data: string;
 }
 
 interface OnSaveResponse {

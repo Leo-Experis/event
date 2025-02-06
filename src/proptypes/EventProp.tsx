@@ -1,5 +1,7 @@
+import { MyResponse } from "./ResponseProp";
+
 interface EventProp {
-  id: number
+  id: number;
   eventName: string;
   eventDate: string;
   eventDescription: string;
@@ -7,9 +9,14 @@ interface EventProp {
   eventCreatorId: number;
 }
 
-interface EventResponseProp {
-  status_code: number;
-  data: EventProp;
-}
+interface EventResponseProp
+  extends MyResponse<{
+    id: number;
+    eventName: string;
+    eventDate: string;
+    eventDescription: string;
+    eventPicture: string;
+    eventCreatorId: number;
+  }> {}
 
 export type { EventProp, EventResponseProp };
