@@ -9,8 +9,12 @@ async function getEvents() {
   return await get("events", true);
 }
 
+async function getEventById(id: number) {
+  return await get(`events/${id}`);
+}
+
 async function putEventPicture(id: number, imageBlob: Blob) {
   return await putBlob(`events/addImage/${id}`, imageBlob, true);
 }
 
-export { createEvent, getEvents, putEventPicture };
+export { createEvent, getEvents, putEventPicture, getEventById };

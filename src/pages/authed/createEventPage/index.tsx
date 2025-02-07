@@ -61,18 +61,6 @@ export default function CreateEventPage() {
     }
   };
 
-  const onSubmitTest = async () => {
-    if (completedCrop && eventImage) {
-      const saved = await OnSave({
-        completedCrop,
-        savePicture: eventImage,
-      });
-      if (saved.status === 200) {
-        console.log(saved.image);
-      }
-    }
-  };
-
   const onSubmit = async () => {
     const res = await createEvents(newEvent);
     if (isEventResponse(res)) {

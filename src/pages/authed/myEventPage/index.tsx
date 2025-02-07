@@ -4,6 +4,7 @@ import { MyProfilePicture } from "../../../components/profilePicture";
 import useEvent from "../../../hooks/useEvent";
 import useProfile from "../../../hooks/useProfile";
 import "./style.css";
+
 export default function MyEventPage() {
   const { profile } = useProfile();
   const { fetchEvents, events } = useEvent();
@@ -16,7 +17,7 @@ export default function MyEventPage() {
 
     fetchData();
   }, []);
-  
+
   return (
     <div className="main-body">
       <div className="welcome-back-parent">
@@ -32,14 +33,7 @@ export default function MyEventPage() {
       </div>
       <div className="main-events">
         {events.map((event) => (
-          <MyEventCard
-            key={event.id}
-            title={event.eventName}
-            owner={event.eventCreatorId.toString()}
-            date={event.eventDate}
-            interested={false}
-            eventImage={event.eventPicture}
-          />
+          <MyEventCard key={event.id} event={event} />
         ))}
 
         <div className="main-events-footer"></div>

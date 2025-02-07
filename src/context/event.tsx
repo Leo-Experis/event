@@ -3,6 +3,7 @@ import { EventProp, EventResponseProp } from "../proptypes/EventProp";
 import { MyErrorResponse } from "../proptypes/ResponseProp";
 import {
   createEvent,
+  getEventById,
   getEvents,
   putEventPicture,
 } from "../services/apiCaller/eventClient";
@@ -17,6 +18,7 @@ interface EventContextType {
     id: number,
     image: Blob
   ) => Promise<EventResponseProp | MyErrorResponse>;
+  fetchEventById: (id: number) => Promise<EventResponseProp | MyErrorResponse>;
 }
 
 const EventContext = createContext<EventContextType>({
@@ -50,6 +52,19 @@ const EventContext = createContext<EventContextType>({
       },
     });
   },
+  fetchEventById: () => {
+    return Promise.resolve<EventResponseProp | MyErrorResponse>({
+      status_code: 500,
+      data: {
+        id: 0,
+        eventCreatorId: 0,
+        eventDate: "",
+        eventDescription: "",
+        eventName: "",
+        eventPicture: "",
+      },
+    });
+  },
 });
 
 const EventProvider = ({ children }: { children: ReactNode }) => {
@@ -71,6 +86,15 @@ const EventProvider = ({ children }: { children: ReactNode }) => {
     return events;
   };
 
+  const fetchEventById = async (id: number) => {
+    const res = await getEventById(id);
+    return {
+      status: res.data.status,
+      status_code: res.status,
+      data: res.data,
+    };
+  };
+
   const uploadEventImage = async (id: number, image: Blob) => {
     const res = await putEventPicture(id, image);
 
@@ -86,6 +110,7 @@ const EventProvider = ({ children }: { children: ReactNode }) => {
     createEvents,
     fetchEvents,
     uploadEventImage,
+    fetchEventById,
   };
 
   return (

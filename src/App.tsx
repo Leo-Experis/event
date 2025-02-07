@@ -11,6 +11,7 @@ import SetupAccount from "./pages/register/setupAccount";
 import ProfilePicturePage from "./pages/register/profilePicturePage";
 import CreateEventPage from "./pages/authed/createEventPage";
 import { EventProvider } from "./context/event";
+import EventPage from "./pages/authed/eventPage";
 function App() {
   return (
     <>
@@ -47,6 +48,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <CreateEventPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/event/:eventID"
+                element={
+                  <ProtectedRoute>
+                    <EventPage />
                   </ProtectedRoute>
                 }
               />
